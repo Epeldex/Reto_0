@@ -26,23 +26,22 @@ public class DataAcessibleDBImplementation implements DataAccessible {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'addEnunciado'");
     }
-
     @Override
-    public void addEnunciadoConvocatoria(Enunciado enunciado, Convocatoria convocatoria) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addEnunciadoConvocatoria'");
-    }
-
-    @Override
-    public Map getEnunciados(UnidadDidactica unidad) {
+    public Map<Integer, Enunciado> getEnunciados() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getEnunciados'");
     }
 
     @Override
-    public Map getEnunciadosConvocatoria(Convocatoria convocatoria) {
+    public Map<Integer, Enunciado> getUnidadDidactica() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getEnunciadosConvocatoria'");
+        throw new UnsupportedOperationException("Unimplemented method 'getUnidadDidactica'");
+    }
+
+    @Override
+    public Map<Integer, Enunciado> getConvocatoria() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getConvocatoria'");
     }
     
 }

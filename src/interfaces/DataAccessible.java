@@ -11,9 +11,9 @@ public interface DataAccessible {
     public void addUnidadDidactica(UnidadDidactica unidad);
     public void addConvocatoria(Convocatoria Convocatoria);
     public void addEnunciado(Enunciado enunciado);
-    public Map getEnunciados(UnidadDidactica unidad);
-    public Map getEnunciadosConvocatoria(Convocatoria convocatoria);
-
+    public Map<Integer, Enunciado> getEnunciados();
+    public Map<Integer, Enunciado> getUnidadDidactica();
+    public Map<Integer, Enunciado> getConvocatoria();
 
     
 }
