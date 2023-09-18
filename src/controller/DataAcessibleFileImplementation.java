@@ -12,7 +12,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import com.mysql.cj.util.Util;
 
 import classes.Convocatoria;
 import classes.Enunciado;
@@ -112,9 +111,7 @@ public class DataAcessibleFileImplementation implements DataAccessible {
                     while (aux!=null){
                         cont++;
                         aux=ois.readObject();
-                    }
-                    
-       
+                    } 
                 }catch(EOFException e1){
                 }catch (Exception e2){
                     e2.printStackTrace();

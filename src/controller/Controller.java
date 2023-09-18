@@ -15,6 +15,12 @@ public class Controller {
         dao1 = Dao1;
         dao2 = Dao2;
     }
+
+    public void run (){
+
+
+
+    }
     
 
 
