@@ -1,6 +1,7 @@
 package classes;
 
 import java.util.Map;
+import java.util.Set;
 
 public class Enunciado {
    private Integer id;
@@ -8,7 +9,7 @@ public class Enunciado {
    private enum nivel {ALTA, MEDIA, BAJA};
    private boolean disponible;
    private String ruta;
-   private Map <Integer, Convocatoria> convocatorias;
+   private Set<Convocatoria> convocatorias;
    private Map <Integer, UnidadDidactica> unidadesDidacticas;
 
    public Integer getId() {

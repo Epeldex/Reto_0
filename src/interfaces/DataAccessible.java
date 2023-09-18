@@ -1,6 +1,7 @@
 package interfaces;
 
 import java.util.Map;
+import java.util.Set;
 
 import classes.UnidadDidactica;
 import classes.Enunciado;
@@ -12,8 +13,8 @@ public interface DataAccessible {
     public void addConvocatoria(Convocatoria Convocatoria);
     public void addEnunciado(Enunciado enunciado);
     public Map<Integer, Enunciado> getEnunciados();
-    public Map<Integer, Enunciado> getUnidadDidactica();
-    public Map<Integer, Enunciado> getConvocatoria();
+    public Map<Integer, UnidadDidactica> getUnidadDidactica();
+    public Set<Convocatoria> getConvocatoria(Integer id);
 
     
 }

@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.Map;
+import java.util.Set;
 
 import classes.Convocatoria;
 import classes.Enunciado;
@@ -33,15 +34,15 @@ public class DataAcessibleDBImplementation implements DataAccessible {
     }
 
     @Override
-    public Map<Integer, Enunciado> getUnidadDidactica() {
+    public Map<Integer, UnidadDidactica> getUnidadDidactica() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getUnidadDidactica'");
     }
 
     @Override
-    public Map<Integer, Enunciado> getConvocatoria() {
+    public Set<Convocatoria> getConvocatoria(Integer id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getConvocatoria'");
-    }
+    } 
     
 }

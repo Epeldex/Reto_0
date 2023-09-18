@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import exceptions.MyException;
 
+
 /**
  * 
  * The OpenCloseConnection class manages the opening and closing of database

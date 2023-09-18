@@ -1,14 +1,22 @@
 package classes;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Convocatoria {
-
+public class Convocatoria implements Serializable{
+    private Integer id;
     private String convocatoria;
     private String descripcion;
     private LocalDate fecha;
     private String curso;
-    
+
+    public Convocatoria(Integer idAux){
+        super();
+        id = idAux;
+    }
+        public Integer getId() {
+        return id;
+    }
     
     public String getConvocatoria() {
 
