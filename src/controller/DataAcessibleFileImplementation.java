@@ -12,7 +12,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import com.mysql.cj.util.Util;
 
 import classes.Convocatoria;
 import classes.Enunciado;
@@ -121,6 +120,12 @@ public class DataAcessibleFileImplementation implements DataAccessible {
                }
             }
             return cont;
+        }
+
+        @Override
+        public Map<Integer, Enunciado> getEnunciados(DataAcessibleFileImplementation fileImp) throws MyException {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'getEnunciados'");
         }
   
 
