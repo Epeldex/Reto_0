@@ -18,6 +18,7 @@ import classes.Convocatoria;
 import classes.Enunciado;
 import classes.MyObjectOutputStream;
 import classes.UnidadDidactica;
+import exceptions.MyException;
 import interfaces.DataAccessible;
 
 public class DataAcessibleFileImplementation implements DataAccessible {
@@ -52,15 +53,9 @@ public class DataAcessibleFileImplementation implements DataAccessible {
     }
 
     @Override
-    public void addEnunciado(Enunciado enunciado) {
+    public Integer addEnunciado(Enunciado enunciado) throws MyException{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'addEnunciado'");
-    }
-
-    @Override
-    public Map<Integer, Enunciado> getEnunciados() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getEnunciados'");
     }
 
     @Override
@@ -113,8 +108,6 @@ public class DataAcessibleFileImplementation implements DataAccessible {
                         cont++;
                         aux=ois.readObject();
                     }
-                    
-       
                 }catch(EOFException e1){
                 }catch (Exception e2){
                     e2.printStackTrace();
