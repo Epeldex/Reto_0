@@ -142,14 +142,15 @@ public class DataAcessibleDBImplementation implements DataAccessible {
                     ResultSet rs = stmt.executeQuery()) {
 
                 while (rs.next()) {
-                    int id = rs.getInt("id");
-                    String acronimo = rs.getString("acronimo");
-                    String titulo = rs.getString("titulo");
-                    String evaluacion = rs.getString("evaluacion");
-                    String descripcion = rs.getString("descripcion");
-
                     UnidadDidactica unidad = new UnidadDidactica();
-                    unidadesMap.put(id, unidad);
+
+                    unidad.setId(rs.getInt("id"));
+                    unidad.setAcronimo(rs.getString("acronimo"));
+                    unidad.setTitulo(rs.getString("titulo"));
+                    unidad.setEvaluacion(rs.getString("evaluacion"));
+                    unidad.setDescripcion(rs.getString("descripcion"));     
+
+                    unidadesMap.put(unidad.getId(), unidad);
                 }
             }
         } catch (SQLException e) {
