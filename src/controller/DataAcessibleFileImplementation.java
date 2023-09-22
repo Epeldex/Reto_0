@@ -143,6 +143,7 @@ public class DataAcessibleFileImplementation implements DataAccessible {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(convocatoriasFile));
             for (int i = 0; i <cont; i++) {
                 Convocatoria c = (Convocatoria) ois.readObject();
+                convocatorias.add(c);
             }
             ois.close();
         } catch (IOException | ClassNotFoundException e) {
