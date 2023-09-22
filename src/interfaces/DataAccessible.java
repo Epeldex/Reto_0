@@ -11,12 +11,14 @@ import classes.Convocatoria;
 
 public interface DataAccessible {
 
-    public void addUnidadDidactica(UnidadDidactica unidad) throws MyException;
+    public Integer addUnidadDidactica(UnidadDidactica unidad) throws MyException;
     public void addConvocatoria(Convocatoria Convocatoria) throws MyException;
     public Integer addEnunciado(Enunciado enunciado) throws MyException;
-    public Map<Integer, Enunciado> getEnunciados(DataAcessibleFileImplementation fileImp) throws MyException;
-    public Map<Integer, UnidadDidactica> getUnidadDidactica() throws MyException;
+    public Map<Integer, Enunciado> getEnunciados(DataAcessibleFileImplementation fileImp) throws MyException; 
+    public Map<Integer, UnidadDidactica> getUnidadDidactica(Integer id) throws MyException;
+    public Map<Integer, UnidadDidactica> getUnidadesDidacticas() throws MyException;
     public Set<Convocatoria> getConvocatoria(Integer id) throws MyException;
+    public Set<Convocatoria> getConvocatorias() throws MyException;
 
     
 }

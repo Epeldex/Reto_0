@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,13 +24,13 @@ public class DataAcessibleFileImplementation implements DataAccessible {
     File convocatoriasFile = new File("convocatorias.obj");
 
     @Override
-    public void addUnidadDidactica(UnidadDidactica unidad) {
+    public Integer addUnidadDidactica(UnidadDidactica unidad) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'addUnidadDidactica'");
     }
 
     @Override
-    public void addConvocatoria(Convocatoria convocatoria) {
+    public void addConvocatoria(Convocatoria convocatoria) throws MyException {
         ObjectOutputStream oos = null;
         // abrimos el fichero
         if (convocatoriasFile.exists()) {
@@ -39,15 +38,20 @@ public class DataAcessibleFileImplementation implements DataAccessible {
                 oos = new MyObjectOutputStream(new FileOutputStream(convocatoriasFile, true));
                 oos.writeObject(convocatoria);
             } catch (IOException e) {
-
+                throw new MyException("Error anadiendo convocatoria");
             }
         } else {
             try {
                 oos = new ObjectOutputStream(new FileOutputStream(convocatoriasFile));
                 oos.writeObject(convocatoria);
             } catch (IOException e) {
-
+                throw new MyException("Error anadiendo convocatoria");
             }
+        }
+        try {
+            oos.close();
+        } catch (IOException e) {
+            throw new MyException("Error cerrando el fichero");
         }
     }
 
@@ -56,38 +60,33 @@ public class DataAcessibleFileImplementation implements DataAccessible {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'addEnunciado'");
     }
-
+    
     @Override
-    public Map<Integer, UnidadDidactica> getUnidadDidactica() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUnidadDidactica'");
-    }
-
-    @Override
-    public Set<Convocatoria> getConvocatoria(Integer id) {
+    public Set<Convocatoria> getConvocatoria(Integer id) throws MyException {
         Set<Convocatoria> convocatorias = new HashSet<>();
         int cont = calculoFichero(convocatoriasFile);
+        ObjectInputStream ois = null;
 
-        // Devuelve el número de personas en el fichero para hacer un for controlado
         try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(convocatoriasFile));
+            ois = new ObjectInputStream(new FileInputStream(convocatoriasFile));
             for (int i = 0; i <cont; i++) {
                 Convocatoria c = (Convocatoria) ois.readObject();
                 if (c.getId().equals(id)) {
                     convocatorias.add(c);
                 } 
             }
-            ois.close();
-        } catch(EOFException e){
-
-        } catch (IOException e) {
-            System.out.println("Error de entrada/salida.");
-        } catch (ClassNotFoundException e) {
-            System.out.println("Tipo de objeto no identificado.");
+        } catch(IOException | ClassNotFoundException e){    
+            throw new MyException("Error recogiendo convocatorias");
+        }
+        finally {
+            try {
+                ois.close();
+            } catch (IOException e) {
+                throw new MyException("Error cerrando flujos con ficheros");
+            }
         } 
         return convocatorias;
     }
-
 
     //                        METODOS AUXILIARES
 
@@ -126,6 +125,36 @@ public class DataAcessibleFileImplementation implements DataAccessible {
         public Map<Integer, Enunciado> getEnunciados(DataAcessibleFileImplementation fileImp) throws MyException {
             // TODO Auto-generated method stub
             throw new UnsupportedOperationException("Unimplemented method 'getEnunciados'");
+        }
+
+        @Override
+        public Map<Integer, UnidadDidactica> getUnidadesDidacticas() throws MyException {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'getUnidadesDidacticas'");
+        }
+
+        @Override
+        public Set<Convocatoria> getConvocatorias() throws MyException {
+        Set<Convocatoria> convocatorias = new HashSet<>();
+        int cont = calculoFichero(convocatoriasFile);
+
+        // Devuelve el número de personas en el fichero para hacer un for controlado
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(convocatoriasFile));
+            for (int i = 0; i <cont; i++) {
+                Convocatoria c = (Convocatoria) ois.readObject();
+            }
+            ois.close();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new MyException("Error recogiendo convocatorias");
+        }
+        return convocatorias;
+        }
+
+        @Override
+        public Map<Integer, UnidadDidactica> getUnidadDidactica(Integer id) throws MyException {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'getUnidadDidactica'");
         }
   
 

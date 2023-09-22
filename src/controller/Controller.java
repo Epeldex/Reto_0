@@ -9,7 +9,6 @@ public class Controller {
     private static DataAccessible dao1;
     private static DataAccessible dao2;
 
-
     public Controller(DataAccessible Dao1, DataAccessible Dao2){
         super();
         dao1 = Dao1;
@@ -18,9 +17,8 @@ public class Controller {
 
     public void run (){
 
-
-
     }
+    
     
 
 

@@ -1,6 +1,5 @@
 package controller;
 
-
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -40,10 +39,11 @@ public class DataAcessibleDBImplementation implements DataAccessible {
     private String query = null;
 
     @Override
-    public void addUnidadDidactica(UnidadDidactica unidad) throws MyException {
+    public Integer addUnidadDidactica(UnidadDidactica unidad) throws MyException {
         MyException me = null;
 
         con = occ.openConnection();
+        int successFlag = -1;
 
         String sql = "INSERT INTO unidad VALUES (id, acronimo, titulo, evaluacion, descripcion)";
         try {
@@ -54,29 +54,13 @@ public class DataAcessibleDBImplementation implements DataAccessible {
             stmt.setString(4, unidad.getEvaluacion());
             stmt.setString(5, unidad.getDescripcion());
 
-            int prueba = stmt.executeUpdate();
-
-            if (prueba == 1) {
-                me = new MyException("Esta bien");
-            } else {
-                me = new MyException("mal");
-            }
-
-            stmt.close();
-            con.close();
-
+            successFlag = stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
-                if (con != null) {
-                    con.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace(); // Manejo de excepción al cerrar la conexión
-            }
+            occ.closeConnection(stmt, con);
         }
-        throw me;
+        return successFlag;
 
     }
 
@@ -132,36 +116,31 @@ public class DataAcessibleDBImplementation implements DataAccessible {
     }
 
     @Override
-    public Map<Integer, UnidadDidactica> getUnidadDidactica() throws MyException {
+    public Map<Integer, UnidadDidactica> getUnidadDidactica(Integer wId) throws MyException {
         Map<Integer, UnidadDidactica> unidadesMap = new HashMap<>();
 
+        con = occ.openConnection();
+        String sql = "SELECT id, acronimo, titulo, evaluacion, descripcion FROM unidad";
         try {
-            con = occ.openConnection();
-            String sql = "SELECT id, acronimo, titulo, evaluacion, descripcion FROM unidad";
-            try (PreparedStatement stmt = con.prepareStatement(sql);
-                    ResultSet rs = stmt.executeQuery()) {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
 
+            if (rs.getInt("id") == wId) {
                 while (rs.next()) {
-                    int id = rs.getInt("id");
-                    String acronimo = rs.getString("acronimo");
-                    String titulo = rs.getString("titulo");
-                    String evaluacion = rs.getString("evaluacion");
-                    String descripcion = rs.getString("descripcion");
-
                     UnidadDidactica unidad = new UnidadDidactica();
-                    unidadesMap.put(id, unidad);
+                    unidad.setId(rs.getInt("id"));
+                    unidad.setAcronimo(rs.getString("acronimo"));
+                    unidad.setTitulo(rs.getString("titulo"));
+                    unidad.setEvaluacion(rs.getString("evaluacion"));
+                    unidad.setDescripcion(rs.getString("descripcion"));
+
+                    unidadesMap.put(unidad.getId(), unidad);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
-                if (con != null) {
-                    con.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace(); // Manejo de excepción al cerrar la conexión
-            }
+            occ.closeConnection(stmt, con);
         }
 
         return unidadesMap;
@@ -172,6 +151,40 @@ public class DataAcessibleDBImplementation implements DataAccessible {
     public Set<Convocatoria> getConvocatoria(Integer id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getConvocatoria'");
+    }
+
+    @Override
+    public Map<Integer, UnidadDidactica> getUnidadesDidacticas() throws MyException {
+        Map<Integer, UnidadDidactica> unidadesMap = new HashMap<>();
+
+        con = occ.openConnection();
+        String sql = "SELECT id, acronimo, titulo, evaluacion, descripcion FROM unidad";
+        try {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                UnidadDidactica unidad = new UnidadDidactica();
+                unidad.setId(rs.getInt("id"));
+                unidad.setAcronimo(rs.getString("acronimo"));
+                unidad.setTitulo(rs.getString("titulo"));
+                unidad.setEvaluacion(rs.getString("evaluacion"));
+                unidad.setDescripcion(rs.getString("descripcion"));
+
+                unidadesMap.put(unidad.getId(), unidad);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            occ.closeConnection(stmt, con);
+        }
+        return unidadesMap;
+    }
+
+    @Override
+    public Set<Convocatoria> getConvocatorias() throws MyException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getConvocatorias'");
     }
 
 }
