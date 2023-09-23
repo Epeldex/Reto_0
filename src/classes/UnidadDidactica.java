@@ -1,6 +1,8 @@
 package classes;
 
-public class UnidadDidactica {
+import java.io.Serializable;
+
+public class UnidadDidactica implements Serializable{
   private Integer id;
   private String acronimo;
   private String titulo;

@@ -5,7 +5,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,7 +39,6 @@ public class DataAcessibleDBImplementation implements DataAccessible {
 
     @Override
     public Integer addUnidadDidactica(UnidadDidactica unidad) throws MyException {
-        MyException me = null;
 
         con = occ.openConnection();
         int successFlag = -1;
@@ -66,13 +64,15 @@ public class DataAcessibleDBImplementation implements DataAccessible {
 
     /* ESTE NO */
     @Override
-    public void addConvocatoria(Convocatoria Convocatoria) {
-
-        throw new UnsupportedOperationException("Unimplemented method 'addConvocatoria'");
+    public void addConvocatoria(Convocatoria convocatoria) throws MyException {
+        new DataAcessibleFileImplementation().addConvocatoria(convocatoria);
     }
 
     @Override
     public Integer addEnunciado(Enunciado enunciado) throws MyException {
+        for (Convocatoria e : enunciado.getConvocatorias())
+            new DataAcessibleFileImplementation().addConvocatoria(e);
+
         Integer check;
         con = occ.openConnection();
         query = "Insert into Enunciado (id, descripcion, nivel, disponible, ruta) values (?,?,?,?,?)";
@@ -92,7 +92,7 @@ public class DataAcessibleDBImplementation implements DataAccessible {
     }
 
     @Override
-    public Map<Integer, Enunciado> getEnunciados(DataAcessibleFileImplementation fileImp) throws MyException {
+    public Map<Integer, Enunciado> getEnunciados() throws MyException {
         LinkedHashMap<Integer, Enunciado> enunciados = new LinkedHashMap<>();
         query = "Select * from enunciado";
         con = occ.openConnection();
@@ -107,7 +107,8 @@ public class DataAcessibleDBImplementation implements DataAccessible {
                 e.setNivel(rs.getString("nivel"));
                 e.setDisponible(rs.getBoolean("disponible"));
                 e.setRuta(rs.getString("ruta"));
-                e.setConvocatorias(fileImp.getConvocatoria(e.getId()));
+                e.setConvocatorias(new DataAcessibleFileImplementation().getConvocatoria(e.getId()));
+                enunciados.put(e.getId(), e);
             }
         } catch (SQLException e) {
             throw new MyException("Error obteniendo enunciados");
@@ -148,9 +149,8 @@ public class DataAcessibleDBImplementation implements DataAccessible {
 
     /* ESTE NO */
     @Override
-    public Set<Convocatoria> getConvocatoria(Integer id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getConvocatoria'");
+    public Set<Convocatoria> getConvocatoria(Integer id) throws MyException {
+        return new DataAcessibleFileImplementation().getConvocatoria(id);
     }
 
     @Override
@@ -183,8 +183,7 @@ public class DataAcessibleDBImplementation implements DataAccessible {
 
     @Override
     public Set<Convocatoria> getConvocatorias() throws MyException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getConvocatorias'");
+        return new DataAcessibleFileImplementation().getConvocatorias();
     }
 
 }

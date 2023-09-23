@@ -29,7 +29,7 @@ public class Util {
 		DateTimeFormatter formateador=DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		do{
 			error=false;
-			dateString=introducirCadena();
+			dateString=leerCadena();
 			try{
 				date=LocalDate.parse(dateString, formateador);
 			}catch(DateTimeParseException e){
@@ -47,7 +47,7 @@ public class Util {
 		DateTimeFormatter formateador=DateTimeFormatter.ofPattern("yyyy/MM/dd");
 		do{
 			error=false;
-			dateString=introducirCadena();
+			dateString=leerCadena();
 			try{
 				date=LocalDate.parse(dateString, formateador);
 			}catch(DateTimeParseException e){
@@ -63,7 +63,7 @@ public class Util {
 		boolean error;
 		do{
 			error=false;
-			cadena=introducirCadena();
+			cadena=leerCadena();
 			if (cadena.length()!=1){
 				System.out.println("Error, introduce un unico caracter: ");
 				error=true;
@@ -87,7 +87,7 @@ public class Util {
 		boolean error;
 		do{
 			error=false;
-			cadena=introducirCadena();
+			cadena=leerCadena();
 			if (cadena.length()!=1){
 				System.out.println("Error, introduce un unico caracter: ");
 				error=true;
@@ -103,7 +103,7 @@ public class Util {
 		do{
 			error=false;
 			try{
-				num=Float.parseFloat(introducirCadena());
+				num=Float.parseFloat(leerCadena());
 			}catch (NumberFormatException e){
 				System.out.println("Valor no numerico. Introduce de nuevo:");
 				error=true;
@@ -119,7 +119,7 @@ public class Util {
 		do{
 			error=false;
 			try{
-				num=Float.parseFloat(introducirCadena());
+				num=Float.parseFloat(leerCadena());
 				
 			}catch (NumberFormatException e){
 				System.out.println("Valor no numerico. Introduce de nuevo:");
@@ -140,7 +140,7 @@ public class Util {
 		do{
 			error=false;
 			try{
-				num=Float.parseFloat(introducirCadena());
+				num=Float.parseFloat(leerCadena());
 				
 			}catch (NumberFormatException e){
 				System.out.println("Valor no numerico. Introduce de nuevo:");
@@ -162,7 +162,7 @@ public class Util {
 		do{
 			error=false;
 			try{
-				num=Integer.parseInt(introducirCadena());
+				num=Integer.parseInt(leerCadena());
 				
 			}catch (NumberFormatException e){
 				System.out.println("Valor no numerico. Introduce de nuevo:");
@@ -183,7 +183,7 @@ public class Util {
 		do{
 			error=false;
 			try{
-				num=Integer.parseInt(introducirCadena());
+				num=Integer.parseInt(leerCadena());
 				
 			}catch (NumberFormatException e){
 				System.out.println("Valor no numerico. Introduce de nuevo:");
@@ -204,7 +204,7 @@ public class Util {
 		do{
 			error=false;
 			try{
-				num=Integer.parseInt(introducirCadena());
+				num=Integer.parseInt(leerCadena());
 			}catch (NumberFormatException e){
 				System.out.println("Valor no numerico. Introduce de nuevo:");
 				error=true;
@@ -213,7 +213,7 @@ public class Util {
 		return num;
 	}
 
-	public static String introducirCadena() {
+	public static String leerCadena() {
 		String cadena = "";
 		boolean error;
 		InputStreamReader entrada =new InputStreamReader(System.in);
@@ -268,7 +268,7 @@ public class Util {
 		do {
 			error = false;
 			try {
-				num = Integer.parseInt(introducirCadena());
+				num = Integer.parseInt(leerCadena());
 			} catch (NumberFormatException e){
 				System.out.println("Error parseando un ");
 				error = true;
