@@ -41,16 +41,18 @@ public class Controller {
 
     public static void crearUD(UnidadDidactica ud) throws MyException {
         dao.addUnidadDidactica(ud);
+        unidadesDidacticas.put(ud.getId(), ud);
     }
 
-    public static void crearConvocatoria(Convocatoria convocatoria) throws MyException{
+    public static void crearConvocatoria(Convocatoria convocatoria) throws MyException {
         dao.addConvocatoria(convocatoria);
+        convocatorias.add(convocatoria);
     }
 
     public static void crearEnunciado(Enunciado enunciado) throws MyException {
         if (dao.addEnunciado(enunciado) > 0)
             view.mostrarMensaje("Enunciado anadido correctamente");
-
+        enunciados.put(enunciado.getId(), enunciado);
     }
 
     public static boolean udExiste(Integer id) {
@@ -76,10 +78,11 @@ public class Controller {
         }
         return false;
     }
-    public static Map<Integer, Convocatoria> getConvocatorias(){
+
+    public static Map<Integer, Convocatoria> getConvocatorias() {
         Map<Integer, Convocatoria> cov = new LinkedHashMap<>();
 
-        for (Convocatoria c : convocatorias){
+        for (Convocatoria c : convocatorias) {
             int i = 1;
             cov.put(i, c);
             i++;
@@ -87,22 +90,22 @@ public class Controller {
         return cov;
     }
 
-    public static boolean comprobarPatron(String patron){
+    public static boolean comprobarPatron(String patron) {
         return patron.matches("^(\\d+(,\\s\\d+)*)?$");
     }
 
-    public static int[] stringToIntArray(String input){
+    public static int[] stringToIntArray(String input) {
         return Arrays.stream(input.split(",\\s")).mapToInt(Integer::parseInt).toArray();
     }
 
-    public static boolean comprobarFecha(String fecha){
+    public static boolean comprobarFecha(String fecha) {
         return fecha.matches("\\d{2}/\\d{2}/\\d{4}");
     }
 
     public static Date parseStringToSqlDate(String date) throws ParseException {
-            return new Date(new SimpleDateFormat("dd/MM/yyyy").parse(date).getTime());
+        return new Date(new SimpleDateFormat("dd/MM/yyyy").parse(date).getTime());
     }
-    
+
     public static Map<Integer, Enunciado> getEnunciados() {
         return enunciados;
     }

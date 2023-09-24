@@ -1,6 +1,7 @@
 package classes;
 
 import java.io.Serializable;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -16,7 +17,7 @@ public class Enunciado implements Serializable {
    private String ruta;
    private Nivel nivel;
    private Set<Convocatoria> convocatorias;
-   private Map<Integer, UnidadDidactica> unidadesDidacticas;
+   private Map<Integer, UnidadDidactica> unidadesDidacticas = new LinkedHashMap<>();
 
    public Integer getId() {
       return id;
@@ -83,6 +84,7 @@ public class Enunciado implements Serializable {
    @Override
    public String toString() {
       return "Enunciado [id=" + id + ", descripcion=" + descripcion + ", disponible=" + disponible + ", ruta=" + ruta
-            + ", nivel=" + nivel + ", convocatorias=" + convocatorias.toString() + ", unidadesDidacticas="; //unidadesDidacticas.toString();
+            + ", nivel=" + nivel + ", convocatorias=" + convocatorias.toString() + ", unidadesDidacticas="
+            + unidadesDidacticas.toString();
    }
 }

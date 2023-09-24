@@ -14,7 +14,6 @@ public interface DataAccessible {
     public void addConvocatoria(Convocatoria Convocatoria) throws MyException;
     public Integer addEnunciado(Enunciado enunciado) throws MyException;
     public Map<Integer, Enunciado> getEnunciados() throws MyException; 
-    public Map<Integer, UnidadDidactica> getUnidadDidactica(Integer id) throws MyException;
     public Map<Integer, UnidadDidactica> getUnidadesDidacticas() throws MyException;
     public Set<Convocatoria> getConvocatoria(Integer id) throws MyException;
     public Set<Convocatoria> getConvocatorias() throws MyException;

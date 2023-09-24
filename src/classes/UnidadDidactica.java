@@ -8,8 +8,15 @@ public class UnidadDidactica implements Serializable{
   private String titulo;
   private String evaluacion;
   private String descripcion;
+  private Integer[] enunciados;
 
   
+  public Integer[] getEnunciados() {
+    return enunciados;
+  }
+  public void setEnunciados(Integer[] enunciados) {
+    this.enunciados = enunciados;
+  }
   public Integer getId() {
     return id;
   }

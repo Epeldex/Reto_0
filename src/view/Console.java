@@ -1,7 +1,10 @@
 package view;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -46,7 +49,7 @@ public class Console {
     }
 
     private void mostrarEnunciados() {
-        for (Enunciado e : Controller.getEnunciados().values()){
+        for (Enunciado e : Controller.getEnunciados().values()) {
             System.out.println(e);
         }
 
@@ -71,6 +74,7 @@ public class Console {
         ud.setEvaluacion(Util.leerCadena());
         System.out.println("Introduce la descripción de la Unidad Didáctica:");
         ud.setDescripcion(Util.leerCadena());
+        ud.setEnunciados(getEnunciadosUD());
 
         return ud;
     }
@@ -114,30 +118,8 @@ public class Console {
         else
             enu.setDisponible(false);
 
-        System.out.println("Introduzca el/los numero(s) de las  que pertenecen a este enunciado"
-                + "separadas por una coma y un espacio tras la coma, e.x: 1, 3, 7, 2");
-
-        Map<Integer, Convocatoria> aux = Controller.getConvocatorias();
-        for (Integer i : aux.keySet()) {
-            System.out.println(i + ") " + aux.get(i).getConvocatoria().toString());
-        }
-        String idListString = Util.leerCadena();
-        while (!Controller.comprobarPatron(idListString)) {
-            System.out.println("Patron incorrecto, introduzcalo de nuevo");
-            idListString = Util.leerCadena();
-        }
-
-        int[] idList = Controller.stringToIntArray(idListString);
-        Set<Convocatoria> conv = new HashSet<>();
-
-        for (int i = 0; i < idList.length; i++) {
-            if (aux.containsKey(idList[i])) {
-                conv.add(aux.get(idList[i]));
-            } else {
-                System.out.println("La convocatoria " + idList[i] + " no existe, no se añadirá");
-            }
-        }
-        enu.setConvocatorias(conv);
+        enu.setConvocatorias(getConvocatoriaDeEnunciado());
+        enu.setUnidadesDidacticas(getUdDeEnunciado());
 
         return enu;
     }
@@ -178,6 +160,87 @@ public class Console {
 
     public void mostrarMensaje(String mensaje) {
         System.out.println(mensaje);
+    }
+
+    private Set<Convocatoria> getConvocatoriaDeEnunciado() {
+        System.out.println("Introduzca el/los numero(s) de las convocatorias que pertenecen a este enunciado"
+                + "separadas por una coma y un espacio tras la coma, e.x: 1, 3, 7, 2");
+
+        Map<Integer, Convocatoria> aux = Controller.getConvocatorias();
+        for (Integer i : aux.keySet()) {
+            System.out.println(i + ") " + aux.get(i).getConvocatoria().toString());
+        }
+        String idListString = Util.leerCadena();
+        while (!Controller.comprobarPatron(idListString)) {
+            System.out.println("Patron incorrecto, introduzcalo de nuevo");
+            idListString = Util.leerCadena();
+        }
+
+        int[] idList = Controller.stringToIntArray(idListString);
+        Set<Convocatoria> conv = new HashSet<>();
+
+        for (int i = 0; i < idList.length; i++) {
+            if (aux.containsKey(idList[i])) {
+                conv.add(aux.get(idList[i]));
+            } else {
+                System.out.println("La convocatoria " + idList[i] + " no existe, no se añadirá");
+            }
+        }
+        return conv;
+    }
+
+    private Map<Integer, UnidadDidactica> getUdDeEnunciado() {
+        System.out.println("Introduzca el/los numero(s) de las unidades didacticas que "
+                + "pertenecen a este enunciado separadas por una coma y un espacio tras la coma, "
+                + "e.x: 1, 3, 7, 2");
+
+        Map<Integer, UnidadDidactica> aux2 = Controller.getUnidadesDidacticas();
+        for (Integer i : aux2.keySet()) {
+            System.out.println(i + ") " + aux2.get(i).getAcronimo().toString());
+        }
+        String idListString = Util.leerCadena();
+        while (!Controller.comprobarPatron(idListString)) {
+            System.out.println("Patron incorrecto, introduzcalo de nuevo");
+            idListString = Util.leerCadena();
+        }
+        int[] idList = Controller.stringToIntArray(idListString);
+        Map<Integer, UnidadDidactica> udMap = new LinkedHashMap<>();
+
+        for (int i = 0; i < idList.length; i++) {
+            if (aux2.containsKey(idList[i])) {
+                udMap.put(idList[i], aux2.get(idList[i]));
+            } else {
+                System.out.println("La unidad didactica " + idList[i] + " no existe, no se añadirá");
+            }
+        }
+
+        return udMap;
+    }
+
+    private Integer[] getEnunciadosUD() {
+        System.out.println("Introduzca el/los numero(s) de los Enunciados que "
+                + "que guardan relacion con esta unidad didactica, e.x: 1, 3, 7, 2");
+
+        Map<Integer, Enunciado> aux2 = Controller.getEnunciados();
+        for (Integer i : aux2.keySet()) {
+            System.out.println(i + ") " + aux2.get(i).getDescripcion().toString());
+        }
+        String idListString = Util.leerCadena();
+        while (!Controller.comprobarPatron(idListString)) {
+            System.out.println("Patron incorrecto, introduzcalo de nuevo");
+            idListString = Util.leerCadena();
+        }
+        int[] idList = Controller.stringToIntArray(idListString);
+        List<Integer> ids = new ArrayList<>();
+
+        for (int i = 0; i < idList.length; i++) {
+            if (aux2.containsKey(idList[i])) {
+                ids.add(idList[i]);
+            } else {
+                System.out.println("El enunciado " + idList[i] + " no existe, no se añadirá");
+            }
+        }
+        return ids.toArray(new Integer[0]);
     }
 
 }

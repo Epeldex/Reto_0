@@ -78,8 +78,8 @@ public class DataAcessibleFileImplementation implements DataAccessible {
                     break;
                 }
             }
-        } catch (EOFException | StreamCorruptedException e) {
-        } catch (IOException | ClassNotFoundException e ) {
+        } catch (EOFException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             throw new MyException("Error recogiendo convocatorias");
         } finally {
@@ -143,11 +143,4 @@ public class DataAcessibleFileImplementation implements DataAccessible {
 
         return convocatorias;
     }
-
-    @Override
-    public Map<Integer, UnidadDidactica> getUnidadDidactica(Integer id) throws MyException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUnidadDidactica'");
-    }
-
 }
