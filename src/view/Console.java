@@ -28,8 +28,8 @@ public class Console {
                     + "\t1. Añadir Unidad Didáctica\n"
                     + "\t2. Añadir Convocatoria\n"
                     + "\t3. Añadir Enunciado\n"
-                    + "\t4. Consultar enunciados que contienen una unidad didactica concreta\n"
-                    + "\t5. Consultar Convocatorias A Partir de Enunciado\n"
+                    + "\t4. Consultar Enunciados que contienen una Unidad Didáctica concreta\n"
+                    + "\t5. Consultar Convocatorias a partir de Enunciado\n"
                     + "\t6. Visualizar Enunciado\n"
                     + "\t7. Salir\n");
 
@@ -62,14 +62,14 @@ public class Console {
 
     private void visualizarDocumento() {
 
-        System.out.println("Introduzca el número del Enunciado que deseas seleccionar:");
+        System.out.println("Introduce el número del Enunciado que deseas seleccionar:");
         for (Enunciado e : Controller.getEnunciados().values())
             System.out.println(e.getId() + ")" + e.getDescripcion().toString());
 
         int selectedID = Util.leerInt();
 
         while (!Controller.getEnunciados().containsKey(selectedID)) {
-            System.out.println("El ID introducido no exsite. Por favor, introduce uno válido:");
+            System.out.println("El ID introducido no existe. Por favor, introduce uno válido:");
             selectedID = Util.leerInt();
         }
 
@@ -93,7 +93,7 @@ public class Console {
 
         Integer id = Util.leerInt();
         while (!Controller.getEnunciados().containsKey(id)) {
-            System.out.println("No hay un enunciado con ese ID. Introduce un número válido:");
+            System.out.println("No hay un Enunciado con ese ID. Por favor, introduce un número válido:");
             id = Util.leerInt();
         }
 
@@ -104,13 +104,13 @@ public class Console {
     }
 
     private void mostrarEnunciados() {
-        System.out.println("Introduzca el numero de la unidad didactica que deasea seleccionar:");
+        System.out.println("Introduce el número de la Unidad Didáctica que deseas seleccionar:");
         for (UnidadDidactica u : Controller.getUnidadesDidacticas().values())
             System.out.println(u.getId() + ")" + u.getAcronimo().toString());
 
         int selectedID = Util.leerInt();
         while (!Controller.getConvocatorias().containsKey(selectedID)){
-            System.out.println("El ID introducido no existe, introduzcalo de nuevo:");
+            System.out.println("El ID introducido no existe. Por favor, introduce uno válido:");
             selectedID = Util.leerInt();
         }
         
@@ -132,7 +132,7 @@ public class Console {
             ud.setId(Util.leerInt());
         }
 
-        System.out.println("Introduce el acrónimo (por ejemplo: BDA, SGE...) de la Unidad Didáctica:");
+        System.out.println("Introduce el acrónimo (por ej.: BDA, SGE...) de la Unidad Didáctica:");
         ud.setAcronimo(Util.leerCadena());
         System.out.println("Introduce el título de la Unidad Didáctica:");
         ud.setTitulo(Util.leerCadena());
@@ -148,17 +148,17 @@ public class Console {
     private Enunciado construirEnunciado() {
         Enunciado enu = new Enunciado();
 
-        System.out.println("Introduce el ID del enunciado:");
+        System.out.println("Introduce el ID del Enunciado:");
         enu.setId(Util.leerInt());
 
         while (Controller.enunExiste(enu.getId())) {
-            System.out.println("Ya existe un enuniado con ese ID. Por favor, introduce otro ID:");
+            System.out.println("Ya existe un Enunciado con ese ID. Por favor, introduce otro ID:");
             enu.setId(Util.leerInt());
         }
 
-        System.out.println("Introduce la descripción del enunciado:");
+        System.out.println("Introduce la descripción del Enunciado:");
         enu.setDescripcion(Util.leerCadena());
-        System.out.println("Introduce el nivel del enunciado (ALTA / MEDIA / BAJA):");
+        System.out.println("Introduce el nivel del Enunciado (ALTA / MEDIA / BAJA):");
         String niv = Util.leerCadena();
 
         while (!niv.equalsIgnoreCase("ALTA")
@@ -184,7 +184,7 @@ public class Console {
         else
             enu.setDisponible(false);
 
-        System.out.println("Intoduzca la ruta del enunciado");
+        System.out.println("Intoduce la ruta del Enunciado:");
         enu.setRuta(Util.leerCadena());
 
         enu.setConvocatorias(getConvocatoriaDeEnunciado());
@@ -196,15 +196,14 @@ public class Console {
     private Convocatoria construirConvocatoria() {
         Convocatoria convocatoria = new Convocatoria((int) Math.random() * (100));
 
-        System.out.println("Introduce la convocatoria");
+        System.out.println("Introduce la Convocatoria:");
         convocatoria.setConvocatoria(Util.leerCadena());
-        System.out.println("Introduce la descripcion de la convocatoria");
+        System.out.println("Introduce la descripción de la Convocatoria:");
         convocatoria.setDescripcion(Util.leerCadena());
-        System.out.println("Introduce la fecha de la convoctoria con este patron:"
-                + " dd/MM/aaaa || e.x: 03/03/2003");
+        System.out.println("Introduce la fecha de la Convoctoria con este patrón (dd/MM/aaaa Por ej.: 03/03/2003):");
         String fecha = Util.leerCadena();
         while (!Controller.comprobarFecha(fecha)) {
-            System.out.println("Patron incorrecto, intruduzca fecha de nuevo: dd/MM/aaaa");
+            System.out.println("Patrón incorrecto. Introduce la fecha de nuevo (con formato dd/MM/aaaa):");
             fecha = Util.leerCadena();
         }
         try {
@@ -212,14 +211,14 @@ public class Console {
         } catch (ParseException e) {
             System.out.println("Error parsing date");
         }
-        System.out.println("Seleccione a que enunciado ira ligada la convocatoria");
+        System.out.println("Selecciona a qué Enunciado irá ligada la Convocatoria:");
 
         for (Enunciado e : Controller.getEnunciados().values())
             System.out.println(e.getId() + ") " + e.getDescripcion());
 
         Integer id = Util.leerInt();
         while (!Controller.getEnunciados().containsKey(id)) {
-            System.out.println("Numero incorrecto, introduzcalo de nuevo");
+            System.out.println("Número incorrecto. Por favor, introduce uno válido:");
             id = Util.leerInt();
         }
         convocatoria.setId(id);
@@ -232,8 +231,8 @@ public class Console {
     }
 
     private Set<Convocatoria> getConvocatoriaDeEnunciado() {
-        System.out.println("Introduzca el/los numero(s) de las convocatorias que pertenecen a este enunciado"
-                + "separadas por una coma y un espacio tras la coma, e.x: 1, 3, 7, 2");
+        System.out.println("Introduce el/los número/s de las Convocatorias que pertenecen a este Enunciado"
+                + "separaos por una coma y un espacio tras la coma (por ej.: 1, 3, 7)");
 
         Map<Integer, Convocatoria> aux = Controller.getConvocatorias();
         for (Integer i : aux.keySet()) {
@@ -241,7 +240,7 @@ public class Console {
         }
         String idListString = Util.leerCadena();
         while (!Controller.comprobarPatron(idListString)) {
-            System.out.println("Patron incorrecto, introduzcalo de nuevo");
+            System.out.println("Patrón incorrecto. Prueba otra vez:");
             idListString = Util.leerCadena();
         }
 
@@ -252,16 +251,15 @@ public class Console {
             if (aux.containsKey(idList[i])) {
                 conv.add(aux.get(idList[i]));
             } else {
-                System.out.println("La convocatoria " + idList[i] + " no existe, no se añadirá");
+                System.out.println("La Convocatoria " + idList[i] + " no existe. No se añadirá.");
             }
         }
         return conv;
     }
 
     private Map<Integer, UnidadDidactica> getUdDeEnunciado() {
-        System.out.println("Introduzca el/los numero(s) de las unidades didacticas que "
-                + "pertenecen a este enunciado separadas por una coma y un espacio tras la coma, "
-                + "e.x: 1, 3, 7, 2");
+        System.out.println("Introducr el/los número/s de las Unidades Didácticas que "
+                + "pertenecen a este Enunciado separadas por una coma y un espacio tras la coma (por ej.: 1, 3, 7) ");
 
         Map<Integer, UnidadDidactica> aux2 = Controller.getUnidadesDidacticas();
         for (Integer i : aux2.keySet()) {
@@ -269,7 +267,7 @@ public class Console {
         }
         String idListString = Util.leerCadena();
         while (!Controller.comprobarPatron(idListString)) {
-            System.out.println("Patron incorrecto, introduzcalo de nuevo");
+            System.out.println("Patrón incorrecto. Prueba de nuevo:");
             idListString = Util.leerCadena();
         }
         int[] idList = Controller.stringToIntArray(idListString);
@@ -279,7 +277,7 @@ public class Console {
             if (aux2.containsKey(idList[i])) {
                 udMap.put(idList[i], aux2.get(idList[i]));
             } else {
-                System.out.println("La unidad didactica " + idList[i] + " no existe, no se añadirá");
+                System.out.println("La Unidad Didáctica " + idList[i] + " no existe. No se añadirá.");
             }
         }
 
@@ -287,8 +285,8 @@ public class Console {
     }
 
     private Integer[] getEnunciadosUD() {
-        System.out.println("Introduzca el/los numero(s) de los Enunciados que "
-                + "que guardan relacion con esta unidad didactica, e.x: 1, 3, 7, 2");
+        System.out.println("Introduce el/los número/s de los Enunciados "
+                + "que guardan relación con esta Unidad Didáctica (por ej.: 1, 3, 7):");
 
         Map<Integer, Enunciado> aux2 = Controller.getEnunciados();
         for (Integer i : aux2.keySet()) {
@@ -296,7 +294,7 @@ public class Console {
         }
         String idListString = Util.leerCadena();
         while (!Controller.comprobarPatron(idListString)) {
-            System.out.println("Patron incorrecto, introduzcalo de nuevo");
+            System.out.println("Patrón incorrecto. Prueba otra vez:");
             idListString = Util.leerCadena();
         }
         int[] idList = Controller.stringToIntArray(idListString);
@@ -306,7 +304,7 @@ public class Console {
             if (aux2.containsKey(idList[i])) {
                 ids.add(idList[i]);
             } else {
-                System.out.println("El enunciado " + idList[i] + " no existe, no se añadirá");
+                System.out.println("El Enunciado " + idList[i] + " no existe. No se añadirá.");
             }
         }
         return ids.toArray(new Integer[0]);
