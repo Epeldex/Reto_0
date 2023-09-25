@@ -1,5 +1,7 @@
 package view;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -7,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.awt.Desktop;
 
 import classes.Convocatoria;
 import classes.Enunciado;
@@ -18,37 +21,90 @@ import exceptions.MyException;
 public class Console {
 
     public void menu() throws MyException {
+        int opcion = 0;
+        while (opcion != 7) {
 
-        System.out.println("SELECCIONA UNA OPCIÓN:\n"
-                + "\t1. Añadir Unidad Didáctica\n"
-                + "\t2. Añadir Convocatoria\n"
-                + "\t3. Añadir Enunciado\n"
-                + "\t4. Consultar Enunciado\n"
-                + "\t5. Consultar Convocatoria\n"
-                + "\t6. Visualizar Enunciado\n"
-                + "\t7. Salir\n");
+            System.out.println("SELECCIONA UNA OPCIÓN:\n"
+                    + "\t1. Añadir Unidad Didáctica\n"
+                    + "\t2. Añadir Convocatoria\n"
+                    + "\t3. Añadir Enunciado\n"
+                    + "\t4. Consultar Enunciado\n"
+                    + "\t5. Consultar Convocatorias A Partir de Enunciado\n"
+                    + "\t6. Visualizar Enunciado\n"
+                    + "\t7. Salir\n");
 
-        switch (Util.leerInt()) {
-            case 1:
-                Controller.crearUD(construirUD());
-                break;
-            case 2:
-                Controller.crearConvocatoria(construirConvocatoria());
-                break;
-            case 3:
-                Controller.crearEnunciado(construirEnunciado());
-                break;
-            case 4:
-                mostrarEnunciados();
-                break;
-            default:
+            switch (Util.leerInt()) {
+                case 1:
+                    Controller.crearUD(construirUD());
+                    break;
+                case 2:
+                    Controller.crearConvocatoria(construirConvocatoria());
+                    break;
+                case 3:
+                    Controller.crearEnunciado(construirEnunciado());
+                    break;
+                case 4:
+                    mostrarEnunciados();
+                    break;
+                case 5:
+                    consultarConvocatoriasDeEnunciado();
+                    break;
+                case 6:
+                    visualizarDocumento();
+                    break;
+                case 7:
+                    opcion = 7;
+                    System.out.println("Gracias por utilizar nuestro programa.");
+                    break;
+            }
+        }
+    }
 
-                break;
+    private void visualizarDocumento() {
+
+        System.out.println("Introduzca el número del Enunciado que deseas seleccionar:");
+        for (Enunciado e : Controller.getEnunciados().values())
+            System.out.println(e.getId() + ")" + e.getDescripcion().toString());
+
+        int selectedID = Util.leerInt();
+
+        while (!Controller.getEnunciados().containsKey(selectedID)) {
+            System.out.println("El ID introducido no exsite. Por favor, introduce uno válido:");
+            selectedID = Util.leerInt();
+        }
+
+        File file = new File(Controller.getEnunciados().get(selectedID).getRuta());
+        try {
+            Desktop.getDesktop().open(file);
+        } catch (IOException e1) {
+            System.out.println("No existe el archivo");
         }
 
     }
 
+    private void consultarConvocatoriasDeEnunciado() {
+
+        System.out.println("Escoge el enunciado (1, 5, 8...) para el cual quieres listar sus convocatorias:");
+        Map<Integer, Enunciado> enunciados = Controller.getEnunciados();
+
+        for (Integer i : enunciados.keySet()) {
+            System.out.println(i + ") " + enunciados.get(i).getDescripcion().toString());
+        }
+
+        Integer id = Util.leerInt();
+        while (!Controller.getEnunciados().containsKey(id)) {
+            System.out.println("No hay un enunciado con ese ID. Introduce un número válido:");
+            id = Util.leerInt();
+        }
+
+        System.out.println("Convocatoria/s del Enunciado " + id + ":");
+        for (Convocatoria c : enunciados.get(id).getConvocatorias())
+            System.out.println(c.getConvocatoria().toString());
+
+    }
+
     private void mostrarEnunciados() {
+
         for (Enunciado e : Controller.getEnunciados().values()) {
             System.out.println(e);
         }
@@ -117,6 +173,9 @@ public class Console {
             enu.setDisponible(true);
         else
             enu.setDisponible(false);
+
+        System.out.println("Intoduzca la ruta del enunciado");
+        enu.setRuta(Util.leerCadena());
 
         enu.setConvocatorias(getConvocatoriaDeEnunciado());
         enu.setUnidadesDidacticas(getUdDeEnunciado());

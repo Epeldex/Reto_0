@@ -102,7 +102,7 @@ public class DataAcessibleDBImplementation implements DataAccessible {
             occ.closeConnection(stmt, con);
         }
         for (Integer u : enunciado.getUnidadesDidacticas().keySet())
-            addRelacionUdEnunciado(u, enunciado.getId());
+            addRelacionUdEnunciado(enunciado.getId(), u);
 
         return check;
     }
@@ -178,6 +178,7 @@ public class DataAcessibleDBImplementation implements DataAccessible {
 
             successFlag = stmt.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new MyException("Error anadiendo relaciones entre unidades didacticas y enunciados");
         } finally {
             occ.closeConnection(stmt, con);
