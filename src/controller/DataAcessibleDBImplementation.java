@@ -179,6 +179,7 @@ public class DataAcessibleDBImplementation implements DataAccessible {
 
             successFlag = stmt.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new MyException("Error anadiendo relaciones entre unidades didacticas y enunciados");
         } finally {
             occ.closeConnection(stmt, con);
