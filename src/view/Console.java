@@ -23,7 +23,7 @@ public class Console {
                 + "\t1. Añadir Unidad Didáctica\n"
                 + "\t2. Añadir Convocatoria\n"
                 + "\t3. Añadir Enunciado\n"
-                + "\t4. Consultar Enunciado\n"
+                + "\t4. Consultar enunciados que contienen una unidad didactica concreta\n"
                 + "\t5. Consultar Convocatoria\n"
                 + "\t6. Visualizar Enunciado\n"
                 + "\t7. Salir\n");
@@ -49,8 +49,19 @@ public class Console {
     }
 
     private void mostrarEnunciados() {
-        for (Enunciado e : Controller.getEnunciados().values()) {
-            System.out.println(e);
+        System.out.println("Introduzca el numero de la unidad didactica que deasea seleccionar:");
+        for (UnidadDidactica u : Controller.getUnidadesDidacticas().values())
+            System.out.println(u.getId() + ")" + u.getAcronimo().toString());
+
+        int selectedID = Util.leerInt();
+        while (!Controller.getConvocatorias().containsKey(selectedID)){
+            System.out.println("El ID introducido no existe, introduzcalo de nuevo:");
+            selectedID = Util.leerInt();
+        }
+        
+        for (Enunciado e : Controller.getEnunciados().values()){
+            if (e.getUnidadesDidacticas().containsKey(selectedID))
+                System.out.println(e.getDescripcion().toString());
         }
 
     }

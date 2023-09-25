@@ -48,6 +48,11 @@ public class DataAcessibleDBImplementation implements DataAccessible {
     }
 
     @Override
+    public void addConvocatoria(Convocatoria convocatoria) throws MyException {
+        new DataAcessibleFileImplementation().addConvocatoria(convocatoria);
+    }
+
+    @Override
     public Integer addUnidadDidactica(UnidadDidactica unidad) throws MyException {
         con = occ.openConnection();
         int successFlag = -1;
@@ -74,10 +79,6 @@ public class DataAcessibleDBImplementation implements DataAccessible {
     }
 
     /* ESTE NO */
-    @Override
-    public void addConvocatoria(Convocatoria convocatoria) throws MyException {
-        new DataAcessibleFileImplementation().addConvocatoria(convocatoria);
-    }
 
     @Override
     public Integer addEnunciado(Enunciado enunciado) throws MyException {
@@ -102,7 +103,7 @@ public class DataAcessibleDBImplementation implements DataAccessible {
             occ.closeConnection(stmt, con);
         }
         for (Integer u : enunciado.getUnidadesDidacticas().keySet())
-            addRelacionUdEnunciado(u, enunciado.getId());
+            addRelacionUdEnunciado(enunciado.getId(), u);
 
         return check;
     }

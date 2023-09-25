@@ -82,8 +82,8 @@ public class Controller {
     public static Map<Integer, Convocatoria> getConvocatorias() {
         Map<Integer, Convocatoria> cov = new LinkedHashMap<>();
 
+        int i = 1;
         for (Convocatoria c : convocatorias) {
-            int i = 1;
             cov.put(i, c);
             i++;
         }
