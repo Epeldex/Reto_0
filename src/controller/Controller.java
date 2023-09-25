@@ -1,6 +1,10 @@
 package controller;
 
-import java.sql.Connection;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,26 +16,23 @@ import interfaces.DataAccessible;
 import view.Console;
 
 public class Controller {
-
     private static Console view = new Console();
-    private static DataAccessible dao1;
-    private static DataAccessible dao2;
+    private static DataAccessible dao;
     private static Map<Integer, Enunciado> enunciados;
     private static Map<Integer, UnidadDidactica> unidadesDidacticas;
     private static Set<Convocatoria> convocatorias;
 
-    public Controller(DataAccessible Dao1, DataAccessible Dao2) {
+    public Controller(DataAccessible data) {
         super();
-        dao1 = Dao1;
-        dao2 = Dao2;
+        dao = data;
     }
 
     public void run() {
-        enunciados = dao1.getEnunciados();
-        unidadesDidacticas = dao1.getUnidadesDidacticas();
-        convocatorias = dao2.getConvocatorias();
-
         try {
+            enunciados = dao.getEnunciados();
+            unidadesDidacticas = dao.getUnidadesDidacticas();
+            convocatorias = dao.getConvocatorias();
+
             view.menu();
         } catch (MyException e) {
             e.printStackTrace();
@@ -39,15 +40,19 @@ public class Controller {
     }
 
     public static void crearUD(UnidadDidactica ud) throws MyException {
-        dao1.addUnidadDidactica(ud);
+        dao.addUnidadDidactica(ud);
+        unidadesDidacticas.put(ud.getId(), ud);
     }
 
-    public static void crearConvocatoria() {
-
+    public static void crearConvocatoria(Convocatoria convocatoria) throws MyException {
+        dao.addConvocatoria(convocatoria);
+        convocatorias.add(convocatoria);
     }
 
-    public static void crearEnunciado(Enunciado enunciado){
-
+    public static void crearEnunciado(Enunciado enunciado) throws MyException {
+        if (dao.addEnunciado(enunciado) > 0)
+            view.mostrarMensaje("Enunciado anadido correctamente");
+        enunciados.put(enunciado.getId(), enunciado);
     }
 
     public static boolean udExiste(Integer id) {
@@ -55,7 +60,6 @@ public class Controller {
             if (id == i)
                 return true;
         }
-
         return false;
     }
 
@@ -64,10 +68,49 @@ public class Controller {
             if (id == i)
                 return true;
         }
-
         return false;
     }
 
-    
+    public static boolean convExiste(String convocatoria) {
+        for (Convocatoria c : convocatorias) {
+            if (c.getConvocatoria().equalsIgnoreCase(convocatoria))
+                return true;
+        }
+        return false;
+    }
 
+    public static Map<Integer, Convocatoria> getConvocatorias() {
+        Map<Integer, Convocatoria> cov = new LinkedHashMap<>();
+
+        for (Convocatoria c : convocatorias) {
+            int i = 1;
+            cov.put(i, c);
+            i++;
+        }
+        return cov;
+    }
+
+    public static boolean comprobarPatron(String patron) {
+        return patron.matches("^(\\d+(,\\s\\d+)*)?$");
+    }
+
+    public static int[] stringToIntArray(String input) {
+        return Arrays.stream(input.split(",\\s")).mapToInt(Integer::parseInt).toArray();
+    }
+
+    public static boolean comprobarFecha(String fecha) {
+        return fecha.matches("\\d{2}/\\d{2}/\\d{4}");
+    }
+
+    public static Date parseStringToSqlDate(String date) throws ParseException {
+        return new Date(new SimpleDateFormat("dd/MM/yyyy").parse(date).getTime());
+    }
+
+    public static Map<Integer, Enunciado> getEnunciados() {
+        return enunciados;
+    }
+
+    public static Map<Integer, UnidadDidactica> getUnidadesDidacticas() {
+        return unidadesDidacticas;
+    }
 }
