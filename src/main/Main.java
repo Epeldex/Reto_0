@@ -1,14 +1,13 @@
 package main;
 
-import classes.Convocatoria;
 import controller.Controller;
-import controller.DataAcessibleFileImplementation;
 import exceptions.MyException;
 import factories.DataAcessibleFactory;
+import factories.ViewableFactory;
 
 public class Main {
     public static void main(String[] args) throws MyException{
-        new Controller(DataAcessibleFactory.getDataAccessible()).run();
+        new Controller(DataAcessibleFactory.getDataAccessible(), ViewableFactory.getViewable()).run();
     }   
     
     }

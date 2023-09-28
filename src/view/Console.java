@@ -10,16 +10,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.awt.Desktop;
+import util.Util;
 
 import classes.Convocatoria;
 import classes.Enunciado;
 import classes.UnidadDidactica;
 import controller.Controller;
-import controller.Util;
 import exceptions.MyException;
+import interfaces.Viewable;
 
-public class Console {
-
+public class Console implements Viewable {
+    
+    @Override
     public void menu() throws MyException {
         int opcion = 0;
         while (opcion != 7) {
@@ -30,7 +32,7 @@ public class Console {
                     + "\t3. Añadir Enunciado\n"
                     + "\t4. Consultar Enunciados que contienen una Unidad Didáctica concreta\n"
                     + "\t5. Consultar Convocatorias a partir de Enunciado\n"
-                    + "\t6. Visualizar Enunciado\n"
+                    + "\t6. Visualizar documento relacionado con el Enunciado seleccionado\n"
                     + "\t7. Salir\n");
 
             switch (Util.leerInt()) {
@@ -109,12 +111,12 @@ public class Console {
             System.out.println(u.getId() + ")" + u.getAcronimo().toString());
 
         int selectedID = Util.leerInt();
-        while (!Controller.getConvocatorias().containsKey(selectedID)){
+        while (!Controller.getConvocatorias().containsKey(selectedID)) {
             System.out.println("El ID introducido no existe. Por favor, introduce uno válido:");
             selectedID = Util.leerInt();
         }
-        
-        for (Enunciado e : Controller.getEnunciados().values()){
+
+        for (Enunciado e : Controller.getEnunciados().values()) {
             if (e.getUnidadesDidacticas().containsKey(selectedID))
                 System.out.println(e.getDescripcion().toString());
         }
@@ -226,6 +228,8 @@ public class Console {
         return convocatoria;
     }
 
+    
+    @Override
     public void mostrarMensaje(String mensaje) {
         System.out.println(mensaje);
     }

@@ -13,18 +13,19 @@ import classes.Enunciado;
 import classes.UnidadDidactica;
 import exceptions.MyException;
 import interfaces.DataAccessible;
-import view.Console;
+import interfaces.Viewable;
 
 public class Controller {
-    private static Console view = new Console();
+    private static Viewable view;
     private static DataAccessible dao;
     private static Map<Integer, Enunciado> enunciados;
     private static Map<Integer, UnidadDidactica> unidadesDidacticas;
     private static Set<Convocatoria> convocatorias;
 
-    public Controller(DataAccessible data) {
+    public Controller(DataAccessible data, Viewable gui) {
         super();
         dao = data;
+        view = gui;
     }
 
     public void run() {
@@ -35,7 +36,7 @@ public class Controller {
 
             view.menu();
         } catch (MyException e) {
-            e.printStackTrace();
+            view.mostrarMensaje(e.getMessage());
         }
     }
 
